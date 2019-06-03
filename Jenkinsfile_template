@@ -33,7 +33,7 @@ podTemplate(label: "pod-${label}",  instanceCap: 10,containers: [
             container('docker') {
                        withCredentials([file(credentialsId: 'key',variable:'key')]) {
                       sh """
-                        docker login -u _json_key --password-stdin https://gcr.io < ${key}
+                        docker login -u _json_key --password-stdin * < ${key}
                         docker pull *
                         """
                     }
