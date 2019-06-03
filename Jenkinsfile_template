@@ -31,10 +31,10 @@ podTemplate(label: "pod-${label}",  instanceCap: 10,containers: [
         }
         stage('pull image') {
             container('docker') {
-                       withCredentials([file(credentialsId: 'google_key',variable:'gcp_key')]) {
+                       withCredentials([file(credentialsId: 'key',variable:'key')]) {
                       sh """
-                        docker login -u _json_key --password-stdin https://gcr.io < ${gcp_key}
-                        docker pull gcr.io/faas-prod/jenkins-slave:1.1 
+                        docker login -u _json_key --password-stdin https://gcr.io < ${key}
+                        docker pull *
                         """
                     }
                 stage('list docker images'){
@@ -47,7 +47,7 @@ podTemplate(label: "pod-${label}",  instanceCap: 10,containers: [
 podTemplate(label: "pod-${label}", containers: [
     containerTemplate(
     name: 'slave-base',
-    image: 'gcr.io/faas-prod/jenkins-slave:1.1',
+    image: *,
     ttyEnabled: true,
     command: 'cat',
     resourceRequestCpu: '1000m',
@@ -57,7 +57,7 @@ podTemplate(label: "pod-${label}", containers: [
     )]) {
     node("pod-${label}") {
         parameters {
-            choice(choices: [RiteAid, 'American Freight', Sugarfina], name: customer_name)
+            choice(choices: [name: customer_name)
             string(name: start_date)
             string(name: end_date)
             choice(choices: [monthly, weekly, daily], name: report_type)
@@ -69,12 +69,11 @@ podTemplate(label: "pod-${label}", containers: [
                     sh 'python --version'
                     sh 'pip3 list'
                     checkout([
-                        $class: 'GitSCM', branches: [[name: '*/migrate_new']],
-                            userRemoteConfigs: [[url: 'git@bitbucket.org:percolata/billing.git',credentialsId:'bitbucket_key']]
+                        $class: 'GitSCM', branches: [[name: '*/master']],
+                            userRemoteConfigs: [[url:* ,credentialsId:'key']]
                           ])
                     try{
-					   sh "python run.py --customer_name \"${params.customer_name}\" --report_type ${params.report_type} \
-					  --start_date ${params.start_date} --end_date ${params.end_date} --discount ${params.discount} --emails ${params.emails}"
+					   sh "python run.py -"
                     }
                     catch(e){
                       script { 
@@ -82,7 +81,7 @@ podTemplate(label: "pod-${label}", containers: [
                             body: '${DEFAULT_CONTENT}',
                              recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
                              subject: '${DEFAULT_SUBJECT}',
-                             to: 'robin.chen@percolata.com'
+                             to:*
                              )
                         }  
                     }
