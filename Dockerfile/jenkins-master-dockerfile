@@ -40,10 +40,6 @@ RUN /usr/local/bin/install-plugins.sh date-parameter sonar google-container-regi
 RUN /usr/local/bin/install-plugins.sh role-strategy kubernetes-credentials codesonar kubernetes bitbucket bitbucket-approve docker-plugin email-ext thinbackup
 
 
-ENV JENKINS_NORMALUSER1  robin
-
-ENV JENKINS_DEFAULTPASSWD zip94303
-
 # Skip initial setup
 ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false -Dhudson.slaves.NodeProvisioner.initialDelay=0 \
  -Dhudson.slaves.NodeProvisioner.MARGIN=50 -Dhudson.slaves.NodeProvisioner.MARGIN0=0.85 -Dpermissive-script-security.enabled=false"
