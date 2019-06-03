@@ -1,7 +1,5 @@
 FROM jenkins/jenkins:lts
 
-MAINTAINER robin.chen@percolata.com
-
 USER root
 
 ENV PYTHON_VERSION 3.4
@@ -41,26 +39,8 @@ RUN /usr/local/bin/install-plugins.sh git mstest matrix-auth workflow-aggregator
 RUN /usr/local/bin/install-plugins.sh date-parameter sonar google-container-registry-auth bitbucket-oauth permissive-script-security credentials backup 
 RUN /usr/local/bin/install-plugins.sh role-strategy kubernetes-credentials codesonar kubernetes bitbucket bitbucket-approve docker-plugin email-ext thinbackup
 
-# add jenkins default users
-ENV JENKINS_USER admin
-ENV JENKINS_PASS Percolata_2019
 
-ENV JENKINS_ADMINUSER1 greg
-ENV JENKINS_ADMINUSER2 riche
-ENV JENKINS_NORMALUSER1 aaron
-ENV JENKINS_NORMALUSER2 chaoli
-ENV JENKINS_NORMALUSER3 crystal
-ENV JENKINS_NORMALUSER4 danny
-ENV JENKINS_NORMALUSER5 liyi
-ENV JENKINS_NORMALUSER6 louisli
-ENV JENKINS_NORMALUSER7 ocean
-ENV JENKINS_NORMALUSER8 park
-ENV JENKINS_NORMALUSER9 robin
-ENV JENKINS_NORMALUSER10 xianhao
-ENV JENKINS_NORMALUSER11 xiuchun
-ENV JENKINS_NORMALUSER12 xuemei
-ENV JENKINS_NORMALUSER13 zhuoqun
-ENV JENKINS_NORMALUSER14 shirley
+ENV JENKINS_NORMALUSER1  robin
 
 ENV JENKINS_DEFAULTPASSWD zip94303
 
