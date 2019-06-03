@@ -1,7 +1,5 @@
 FROM jenkins/jnlp-slave
 
-MAINTAINER robin.chen@percolata.com
-
 USER root
 
 ENV PYTHON_VERSION 2.7
@@ -26,17 +24,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && ln -nsf /usr/bin/python2.7 /usr/bin/python
 	
-# add bitbuckets key
-ADD id_rsa-bitbucket-backend /root/.ssh/id_rsa
-ADD MYSQL_AUTH.config ~/
-RUN chmod 600 /root/.ssh/id_rsa
-# RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa
-
-# Create known_hosts
-RUN touch /root/.ssh/known_hosts
-
-# Add bitbuckets key
-RUN ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
 
 #install dependancy
 RUN pip install chardet==3.0.2 idna==2.5 pyasn1==0.4.1
