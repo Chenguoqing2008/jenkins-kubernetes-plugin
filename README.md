@@ -11,7 +11,7 @@
 
 
 # Registry docker images
-kubectl create secret docker-registry traffic-acr --docker-server traffic1.azurecr.io --docker-username traffic1 --docker-password e4Wi9=73SRZiUQRb7cBxPFoNC/6n/1Ay --docker-email chao.lee@percolata.com
+
 
 
 # Download, Upload Jenkins config files from Jenkins Kubernetes master  
@@ -68,7 +68,7 @@ Then the Jenkins image is in the repo.
 # Set up Kubernetes deployment:
 
 1. Modify jenkins-deployment.yaml; (in k8s-jenkins-deployment folder)
-   image: robinchen007/percolatarobin:4.0 to image name last step created. 
+   image: robin:4.0 to image name last step created. 
 2. Deploy Jenkins;  
    kubectl apply -f jenkins-deployment.yaml (in k8s-jenkins-deployment folder)
 3. check the Jenkins is successfully starts;  
@@ -127,8 +127,7 @@ Go to Manage Jenkins -> Configure System and increase the number of executor fro
 # Jenkins Slaves Configuration
 1. Get Kubernest URL;  
 kubectl cluster-info | grep master  
-Kubernetes master is running at https://perco-84c5abc6.hcp.westus.azmk8s.io:443  
-https://perco-84c5abc6.hcp.westus.azmk8s.io:443 is the Kubernest URL  
+ 
 
 2. Get the Jenkins static URL;  
      1. get Jenkins pods name  
@@ -166,7 +165,7 @@ fill in the ‘Kubernetes URL’
 # How to get the Jenkins credentialsId
 1. Jenkins -> Credentials, add global credential;  
 2. Kind choose 'SSH Username with private key';  
-3. Add Username 'percolata' and private key in folder /Dockerfile/id_rsa-bitbucket-backend;  
+3. Add Username  
 4. Then back to Jenkins Home page and click Credentials, the ID column is the credentialsId;  
 
 
@@ -178,12 +177,13 @@ fill in the ‘Kubernetes URL’
     resourceRequestMemory: '1000Mi',  
     resourceLimitMemory: '2000Mi' 
 3. Modify the image name you will pull from docker registries such as myregistry.azurecr.io/robinchen007/jenkins-slave-base:2.9
-4. Modify the Jenkinsfile set the proper bitbucket repo name,image name, credentialsId;  
+4. Modify the Jenkinsfile set the pro\
+bitbucket repo name,image name, credentialsId;  
 5. Run the script and monitor the result;  
 
 # Using docker registry to pull private image(Azure)
 1. Get the secret of docker registry  
-kubectl create secret docker-registry traffic-acr --docker-server traffic1.azurecr.io --docker-username traffic1 --docker-password e4Wi9=73SRZiUQRb7cBxPFoNC/6n/1Ay --docker-email chao.lee@percolata.com 
+
 2. Azure all service 
 Container registries
 3. login in Azure docker  
@@ -201,13 +201,12 @@ docker push myregistry.azurecr.io/samples/nginx
 kubectl create secret docker-registry gcr-json-key \
 --docker-server=gcr.io \
 --docker-username=_json_key \
---docker-password="$(cat ~/Percolata/Percolata-SZ-Production-c3a83ccde5c5.json)" \
---docker-email=chao.li@percolata.com  
+
 2. docker login
 docker login -u _json_key -p "$(cat faas-prod-f8012438ee7c.json)" https://gcr.io  
 3. docker push gcr.io/faas-prod/sonarqube:latest  
 
-doc: https://docs.google.com/document/d/10DV_UkjQk3NOlDtCHUgq9o6ukVbnT4TsaRaOaYUEpB0/edit#
+
 
 
 
