@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: jenkins
 spec:
-  loadBalancerIP: 35.247.6.173
+  loadBalancerIP: 
   type: LoadBalancer
   ports:
     - port: 8080
